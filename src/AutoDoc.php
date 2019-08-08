@@ -71,7 +71,7 @@ class AutoDoc
 
         !empty($data['dir']) ?: self::trace("required -d or --dir", true);
 
-        empty($data['dst']) ?: self::$dstFile = $data['dst'];
+        empty($opt['dst']) ?: self::$dstFile = $opt['dst'];
 
         return $data;
     }
@@ -189,6 +189,9 @@ class AutoDoc
             $markDown .= "{$mdFile} \n";
 
             foreach ((array)$source['func'] as $funcSource) {
+                if (in_array($funcSource['name'], self::$exclude['func'])) {
+                    continue;
+                }
 
                 $mdDesc = str_replace([
                     "{%desc%}",
